@@ -38,8 +38,9 @@ namespace adatbazisfeladat
             {
                 Console.WriteLine(ex.Message);
             }
-
         }
+
+
 
 
 

@@ -6,14 +6,10 @@ namespace adatbazisfeladat
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Kérem az adatbázis nevét");
+            Console.WriteLine("Kérem az adatbázis nevét"); //library
             string dbName = Console.ReadLine();
-            Console.WriteLine("Kérem a felhasználó nevet");
-            string userName = Console.ReadLine();
-            Console.WriteLine("Kérem a felhasználó jelszavát");
-            string userPass = Console.ReadLine();
 
-            Connect c = new Connect(dbName, userName, userPass);
+            Connect c = new Connect(dbName);
         }
     }
 }
