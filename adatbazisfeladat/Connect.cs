@@ -18,12 +18,12 @@ namespace adatbazisfeladat
 
         private string ConnenctionString;
 
-        public Connect(string database, string user, string password)
+        public Connect(string database)
         {
             _host = "localhost";
             _database = database;
-            _user = user;
-            _password = password;
+            _user = "root";
+            _password = "";
 
             ConnenctionString = $"SERVER={_host};DATABASE={_database};UID={_user};PASSWORD={_password};SslMode=None";
             Connection = new MySqlConnection(ConnenctionString);
