@@ -6,10 +6,19 @@ namespace adatbazisfeladat
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Kérem az adatbázis nevét"); //library
-            string dbName = Console.ReadLine();
 
-            Connect c = new Connect(dbName);
+            ISqlStatements sqlStatements = new TableBooks();
+
+
+            //foreach (var item in sqlStatements.GetAllBooks())
+            //{
+            //    var book = item.GetType().GetProperties();
+            //    Console.WriteLine($"{book[0].Name} = {book[0].GetValue(item)}, {book[1].Name} = {book[1].GetValue(item)}");
+            //}
+
+            Console.Write("Kérem a rekord ID-t: ");
+            Console.WriteLine(sqlStatements.GetById(Convert.ToInt32(Console.ReadLine())));
+
         }
     }
 }

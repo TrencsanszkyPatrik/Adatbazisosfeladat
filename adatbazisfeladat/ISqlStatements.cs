@@ -8,9 +8,8 @@ namespace adatbazisfeladat
 {
     internal interface ISqlStatements
     {
-        //Books tabla teljes tartalma
         List<object> GetAllBooks();
-
+        object GetById(int id);
 
 
     }
