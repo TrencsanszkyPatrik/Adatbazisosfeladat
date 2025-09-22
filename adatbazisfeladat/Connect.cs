@@ -21,7 +21,7 @@ namespace adatbazisfeladat
         public Connect(string database)
         {
             _host = "localhost";
-            _database = database;
+            _database = "library";
             _user = "root";
             _password = "";
 

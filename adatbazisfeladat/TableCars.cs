@@ -1,83 +1,62 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 
 namespace adatbazisfeladat
 {
-    internal class TableBooks : ISqlStatements
+    internal class TableCars : ISqlStatements
     {
-        public object AddNewRecord(object newBook)
+        public object AddNewRecord(object newCar)
         {
             Connect conn = new Connect("library");
-
             conn.Connection.Open();
-
-            string sql = "INSERT INTO `books`(`title`, `author`, `releaseDate`) VALUES (@title,@author,@release)";
-
+            string sql = "INSERT INTO `cars`(`brand`, `type`, `mDate`) VALUES (@brand, @type, @mDate)";
             MySqlCommand cmd = new MySqlCommand(sql, conn.Connection);
-
-            var book = newBook.GetType().GetProperties();
-
-            cmd.Parameters.AddWithValue("@title", book[0].GetValue(newBook));
-            cmd.Parameters.AddWithValue("@author", book[1].GetValue(newBook));
-            cmd.Parameters.AddWithValue("@release", book[2].GetValue(newBook));
-
+            var car = newCar.GetType().GetProperties();
+            cmd.Parameters.AddWithValue("@brand", car[0].GetValue(newCar));
+            cmd.Parameters.AddWithValue("@type", car[1].GetValue(newCar));
+            cmd.Parameters.AddWithValue("@mDate", car[2].GetValue(newCar));
             cmd.ExecuteNonQuery();
-
             conn.Connection.Close();
-
-            return book;
-
+            return car;
         }
 
         public object DeleteRecord(int id)
         {
             Connect conn = new Connect("library");
-
             conn.Connection.Open();
-
-            string sql = "DELETE FROM books WHERE id = @id";
-
+            string sql = "DELETE FROM cars WHERE id = @id";
             MySqlCommand cmd = new MySqlCommand(sql, conn.Connection);
-
             cmd.Parameters.AddWithValue("@id", id);
-
             cmd.ExecuteNonQuery();
-
             conn.Connection.Close();
-
-            return new { Message = "Sikeres törlés"};
+            return new { Message = "Sikeres törlés" };
         }
 
         public List<object> GetAllRecords()
         {
             List<object> result = new List<object>();
             Connect conn = new Connect("library");
-
             conn.Connection.Open();
-
-            string sql = "SELECT * FROM books";
+            string sql = "SELECT * FROM cars";
             MySqlCommand cmd = new MySqlCommand(sql, conn.Connection);
-
             MySqlDataReader dr = cmd.ExecuteReader();
-
             while (dr.Read())
             {
-                var book = new
+                var car = new
                 {
                     Id = dr.GetInt32("id"),
-                    Title = dr.GetString("title"),
-                    Author = dr.GetString("author"),
-                    Release = dr.GetDateTime("releaseDate")
+                    Brand = dr.GetString("brand"),
+                    Type = dr.GetString("type"),
+                    MDate = dr.GetDateTime("mDate")
                 };
-                result.Add(book);
+                result.Add(car);
             }
-
             conn.Connection.Close();
-
             return result;
         }
 
@@ -85,47 +64,36 @@ namespace adatbazisfeladat
         {
             Connect conn = new Connect("library");
             conn.Connection.Open();
-
-            string sql = "SELECT * FROM books WHERE id = @id";
+            string sql = "SELECT * FROM cars WHERE id = @id";
             MySqlCommand cmd = new MySqlCommand(sql, conn.Connection);
             cmd.Parameters.AddWithValue("@id", id);
-
             MySqlDataReader dr = cmd.ExecuteReader();
-            dr.Read();
-            var book = new
-            {
-                Id = dr.GetInt32("id"),
-                Title = dr.GetString("title"),
-                Author = dr.GetString("author"),
-                Release = dr.GetDateTime("releaseDate")
-            };
+            
+                var car = new
+                {
+                    Id = dr.GetInt32("id"),
+                    Brand = dr.GetString("brand"),
+                    Type = dr.GetString("type"),
+                    MDate = dr.GetDateTime("mDate")
+                };
 
             conn.Connection.Close();
-
-            return book;
-
+            return car;
         }
 
-        public object UpdateRecord(int id, object updateBook)
+        public object UpdateRecord(int id, object updateCar)
         {
             Connect conn = new Connect("library");
-
             conn.Connection.Open();
-
-            string sql = "UPDATE `books` SET `title`=@title,`author`=@author,`releaseDate`=@release WHERE id = @id";
-
+            string sql = "UPDATE `cars` SET `brand`=@brand, `type`=@type, `mDate`=@mDate WHERE id = @id";
             MySqlCommand cmd = new MySqlCommand(sql, conn.Connection);
-
-            var book = updateBook.GetType().GetProperties();
+            var car = updateCar.GetType().GetProperties();
             cmd.Parameters.AddWithValue("@id", id);
-            cmd.Parameters.AddWithValue("@title", book[0].GetValue(updateBook));
-            cmd.Parameters.AddWithValue("@author", book[1].GetValue(updateBook));
-            cmd.Parameters.AddWithValue("@release", book[2].GetValue(updateBook));
-
+            cmd.Parameters.AddWithValue("@brand", car[0].GetValue(updateCar));
+            cmd.Parameters.AddWithValue("@type", car[1].GetValue(updateCar));
+            cmd.Parameters.AddWithValue("@mDate", car[2].GetValue(updateCar));
             cmd.ExecuteNonQuery();
-
             conn.Connection.Close();
-
             return new { Message = "Sikeres frissítés." };
         }
     }
