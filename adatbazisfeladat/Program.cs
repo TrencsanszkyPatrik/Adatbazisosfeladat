@@ -17,7 +17,10 @@ namespace adatbazisfeladat
             //}
 
             Console.Write("Kérem a rekord ID-t: ");
-            Console.WriteLine(sqlStatements.GetById(Convert.ToInt32(Console.ReadLine())));
+
+            var item = sqlStatements.GetById(Convert.ToInt32(Console.ReadLine()));
+            var book = item.GetType().GetProperties();
+            Console.WriteLine($"{book[1].Name} = {book[1].GetValue(item)}");
 
         }
     }
