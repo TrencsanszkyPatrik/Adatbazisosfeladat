@@ -15,10 +15,12 @@ namespace adatbazisfeladat
 
             conn.Connection.Open();
 
-            string sql = "INSERT INTO 'books'(title, author, releaseDate) values(@title,@author,@release)";
+            string sql = "INSERT INTO `books`(`title`, `author`, `releaseDate`) VALUES (@title,@author,@release)";
+
             MySqlCommand cmd = new MySqlCommand(sql, conn.Connection);
 
             var book = newBook.GetType().GetProperties();
+
             cmd.Parameters.AddWithValue("@title", book[0].GetValue(newBook));
             cmd.Parameters.AddWithValue("@author", book[1].GetValue(newBook));
             cmd.Parameters.AddWithValue("@release", book[2].GetValue(newBook));
@@ -26,7 +28,28 @@ namespace adatbazisfeladat
             cmd.ExecuteNonQuery();
 
             conn.Connection.Close();
+
             return book;
+
+        }
+
+        public object DeleteRecord(int id)
+        {
+            Connect conn = new Connect("library");
+
+            conn.Connection.Open();
+
+            string sql = "DELETE FROM books WHERE id = @id";
+
+            MySqlCommand cmd = new MySqlCommand(sql, conn.Connection);
+
+            cmd.Parameters.AddWithValue("@id", id);
+
+            cmd.ExecuteNonQuery();
+
+            conn.Connection.Close();
+
+            return new { Message = "Sikeres törlés"};
         }
 
         public List<object> GetAllRecords()

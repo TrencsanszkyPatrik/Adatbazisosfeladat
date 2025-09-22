@@ -11,6 +11,7 @@ namespace adatbazisfeladat
         List<object> GetAllRecords();
         object GetById(int id);
         object AddNewRecord(object newBook);
+        object DeleteRecord(int id);
 
 
     }
